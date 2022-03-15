@@ -12,6 +12,8 @@ import React from 'react';
 import {SafeAreaProvider, SafeAreaView} from 'react-native-safe-area-context';
 import {StatusBar, useColorScheme} from 'react-native';
 import Navigation from './src/Navigaton';
+import Icon from 'react-native-vector-icons/FontAwesome';
+Icon.loadFont();
 
 const App = () => {
   const isDarkMode = useColorScheme() === 'dark';

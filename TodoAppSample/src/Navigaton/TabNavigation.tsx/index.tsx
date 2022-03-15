@@ -1,7 +1,7 @@
 import * as React from 'react';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import {TodoListingScreen} from '../../Screens';
-import {View, Button, Alert, Text, TouchableOpacity} from 'react-native';
+import {View, Alert, Text, TouchableOpacity, StyleSheet} from 'react-native';
 import {getScaledFont} from '../../HelperFuntions';
 import Icon from 'react-native-vector-icons/FontAwesome';
 
@@ -9,11 +9,9 @@ const Tab = createBottomTabNavigator();
 
 const AddButton = () => {
   return (
-    <View
-      style={{
-        marginRight: '10%',
-      }}>
+    <View style={styles.addButton}>
       <TouchableOpacity
+        style={styles.fullSize}
         onPress={() => {
           Alert.alert('', 'This is a button!', [
             {
@@ -24,7 +22,7 @@ const AddButton = () => {
             {text: 'OK', onPress: () => console.log('OK Pressed')},
           ]);
         }}>
-        <Text style={{fontWeight: 'bold', fontSize: getScaledFont(40)}}>+</Text>
+        <Text style={styles.plus}>+</Text>
       </TouchableOpacity>
     </View>
   );
@@ -78,3 +76,23 @@ function TabBarNavigation() {
 }
 
 export default TabBarNavigation;
+
+const styles = StyleSheet.create({
+  addButton: {
+    marginRight: 10,
+    width: 50,
+    aspectRatio: 1,
+    height: undefined,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  fullSize: {
+    width: '100%',
+    height: '100%',
+  },
+  plus: {
+    alignSelf: 'center',
+    fontWeight: 'bold',
+    fontSize: getScaledFont(40),
+  },
+});
