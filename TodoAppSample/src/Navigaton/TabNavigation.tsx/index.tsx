@@ -41,6 +41,7 @@ function TabBarNavigation() {
         tabBarActiveTintColor: 'tomato',
         tabBarInactiveTintColor: 'gray',
         tabBarShowLabel: false,
+        headerStatusBarHeight: 0,
       }}>
       <Tab.Screen
         name="All Tasks"
