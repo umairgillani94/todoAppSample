@@ -18,15 +18,26 @@ const todoReducer = (state = initialState, action: TodoItemAction) => {
       };
     }
     case DELETE_TODO_ITEM: {
+      let data = state.todoItems;
+      data = data.filter(item => {
+        return item.id !== action.payload.id;
+      });
       return {
         ...state,
-        todoItems: [...state.todoItems, action.payload],
+        todoItems: [...data],
       };
     }
     case UPDATE_TODO_ITEM: {
+      const data = state.todoItems;
+      const index = data.findIndex(item => {
+        return item.id === action.payload.id;
+      });
+      if (index > -1) {
+        data[index] = action.payload;
+      }
       return {
         ...state,
-        todoItems: [...state.todoItems, action.payload],
+        todoItems: [...data],
       };
     }
     default: {

@@ -14,11 +14,10 @@ import {StatusBar, useColorScheme} from 'react-native';
 import Navigation from './src/Navigaton';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import {Provider} from 'react-redux';
-import configureStore from './src/Store';
+import {PersistGate} from 'redux-persist/integration/react';
+import {store, persistor} from './src/Store';
 
 Icon.loadFont();
-
-const store = configureStore();
 
 const App = () => {
   const isDarkMode = useColorScheme() === 'dark';
@@ -30,12 +29,18 @@ const App = () => {
 
   return (
     <Provider store={store}>
-      <SafeAreaProvider>
-        <SafeAreaView style={backgroundStyle} edges={['top', 'left', 'right']}>
-          <StatusBar barStyle={isDarkMode ? 'light-content' : 'dark-content'} />
-          <Navigation />
-        </SafeAreaView>
-      </SafeAreaProvider>
+      <PersistGate loading={null} persistor={persistor}>
+        <SafeAreaProvider>
+          <SafeAreaView
+            style={backgroundStyle}
+            edges={['top', 'left', 'right']}>
+            <StatusBar
+              barStyle={isDarkMode ? 'light-content' : 'dark-content'}
+            />
+            <Navigation />
+          </SafeAreaView>
+        </SafeAreaProvider>
+      </PersistGate>
     </Provider>
   );
 };
