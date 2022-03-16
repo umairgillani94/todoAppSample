@@ -10,16 +10,23 @@ import {
   KeyboardAvoidingView,
   Platform,
   Keyboard,
+  Alert,
 } from 'react-native';
 import {getScaledFont} from '../../HelperFuntions';
 import {useDispatch} from 'react-redux';
-import {addTodoItem} from '../../Actions';
+import {addTodoItem, updateTodoItem} from '../../Actions';
+import {generateUUID} from '../../HelperFuntions';
+import {TodoItem} from '../../Interfaces/TodoItem';
 
 const TodoInputModal: React.FC<{
   updateVisibility: (visible: boolean) => void;
+  isEditMode?: boolean;
+  item?: TodoItem;
 }> = props => {
   const dispatch = useDispatch();
   let inputRef = React.createRef<TextInput>();
+
+  const [text, setText] = React.useState('');
 
   React.useEffect(() => {
     if (inputRef && inputRef.current) {
@@ -28,16 +35,42 @@ const TodoInputModal: React.FC<{
   }, []);
 
   const handleAddAction = () => {
-    dispatch(
-      addTodoItem({
-        data: 'x',
-        id: 'q',
-        isCompleted: false,
-        isArchieved: false,
-        createdAt: Date(),
-        updatedAt: Date(),
-      }),
-    );
+    if (!text || text.trim().length < 1) {
+      showErrorAlert();
+      return;
+    }
+
+    if (props.isEditMode && props.item) {
+      props.item.data = text.trim();
+      props.item.updatedAt = Date();
+      dispatch(updateTodoItem(props.item));
+    } else {
+      dispatch(
+        addTodoItem({
+          data: text.trim(),
+          id: generateUUID(),
+          isCompleted: false,
+          isArchieved: false,
+          createdAt: Date(),
+          updatedAt: Date(),
+        }),
+      );
+    }
+    props.updateVisibility(false);
+    // deleteTodoItem({
+    //   data: 'x',
+    //   id: 'q',
+    //   isCompleted: false,
+    //   isArchieved: false,
+    //   createdAt: Date(),
+    //   updatedAt: Date(),
+    // }),
+  };
+
+  const showErrorAlert = () => {
+    Alert.alert('Ooops', 'Please enter what to do!', [
+      {text: 'OK', onPress: () => {}},
+    ]);
   };
 
   return (
@@ -57,6 +90,7 @@ const TodoInputModal: React.FC<{
                 style={styles.input}
                 placeholder="Enter Todo Item"
                 keyboardType="numbers-and-punctuation"
+                onChangeText={newText => setText(newText)}
               />
               <View style={styles.btnContainer}>
                 <TouchableOpacity
@@ -64,7 +98,7 @@ const TodoInputModal: React.FC<{
                   onPress={() => {
                     handleAddAction();
                   }}>
-                  <Text style={styles.btnTitle}>ADD</Text>
+                  <Text style={styles.btnTitle}>SAVE</Text>
                 </TouchableOpacity>
               </View>
 
@@ -83,6 +117,10 @@ const TodoInputModal: React.FC<{
       </TouchableWithoutFeedback>
     </Modal>
   );
+};
+
+TodoInputModal.defaultProps = {
+  isEditMode: false,
 };
 
 export default TodoInputModal;
