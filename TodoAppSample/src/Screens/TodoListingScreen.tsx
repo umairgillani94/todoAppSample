@@ -3,11 +3,17 @@ import {View, Text, StyleSheet} from 'react-native';
 import {useNavigation} from '@react-navigation/native';
 import AddButton from '../Components/NavAddButton';
 import {TodoInputModal} from '../Components';
+import {useSelector} from 'react-redux';
+import {RootState} from '../Store';
 
 const TodoListingScreen = () => {
   const navigation = useNavigation();
 
   const [showModal, setShowModal] = React.useState(false);
+
+  const todoItems = useSelector(
+    (state: RootState) => state.todoReducer.todoItems,
+  );
 
   React.useLayoutEffect(() => {
     navigation.setOptions({
@@ -20,6 +26,10 @@ const TodoListingScreen = () => {
       ),
     });
   }, [navigation]);
+
+  React.useEffect(() => {
+    console.log('items: ', todoItems);
+  }, [todoItems]);
 
   return (
     <View style={styles.container}>

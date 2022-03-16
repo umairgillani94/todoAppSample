@@ -12,10 +12,13 @@ import {
   Keyboard,
 } from 'react-native';
 import {getScaledFont} from '../../HelperFuntions';
+import {useDispatch} from 'react-redux';
+import {addTodoItem} from '../../Actions';
 
 const TodoInputModal: React.FC<{
   updateVisibility: (visible: boolean) => void;
 }> = props => {
+  const dispatch = useDispatch();
   let inputRef = React.createRef<TextInput>();
 
   React.useEffect(() => {
@@ -24,7 +27,18 @@ const TodoInputModal: React.FC<{
     }
   }, []);
 
-  const handleAddAction = () => {};
+  const handleAddAction = () => {
+    dispatch(
+      addTodoItem({
+        data: 'x',
+        id: 'q',
+        isCompleted: false,
+        isArchieved: false,
+        createdAt: Date(),
+        updatedAt: Date(),
+      }),
+    );
+  };
 
   return (
     <Modal transparent={true} visible={true} animationType={'slide'}>

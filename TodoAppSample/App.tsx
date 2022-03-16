@@ -13,7 +13,12 @@ import {SafeAreaProvider, SafeAreaView} from 'react-native-safe-area-context';
 import {StatusBar, useColorScheme} from 'react-native';
 import Navigation from './src/Navigaton';
 import Icon from 'react-native-vector-icons/FontAwesome';
+import {Provider} from 'react-redux';
+import configureStore from './src/Store';
+
 Icon.loadFont();
+
+const store = configureStore();
 
 const App = () => {
   const isDarkMode = useColorScheme() === 'dark';
@@ -24,12 +29,14 @@ const App = () => {
   };
 
   return (
-    <SafeAreaProvider>
-      <SafeAreaView style={backgroundStyle} edges={['top', 'left', 'right']}>
-        <StatusBar barStyle={isDarkMode ? 'light-content' : 'dark-content'} />
-        <Navigation />
-      </SafeAreaView>
-    </SafeAreaProvider>
+    <Provider store={store}>
+      <SafeAreaProvider>
+        <SafeAreaView style={backgroundStyle} edges={['top', 'left', 'right']}>
+          <StatusBar barStyle={isDarkMode ? 'light-content' : 'dark-content'} />
+          <Navigation />
+        </SafeAreaView>
+      </SafeAreaProvider>
+    </Provider>
   );
 };
 
