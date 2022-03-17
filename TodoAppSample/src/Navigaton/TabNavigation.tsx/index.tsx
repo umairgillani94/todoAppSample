@@ -2,7 +2,7 @@ import * as React from 'react';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import {TodoListingScreen} from '../../Screens';
 import Icon from 'react-native-vector-icons/FontAwesome';
-import {NavAddButton} from '../../Components';
+import { FilterType } from '../../Enums';
 
 const Tab = createBottomTabNavigator();
 
@@ -11,7 +11,6 @@ function TabBarNavigation() {
     <Tab.Navigator
       screenOptions={{
         headerShown: true,
-        // headerRight: () => <NavAddButton />,
         headerTitle: '',
         headerTitleAlign: 'center',
         tabBarActiveTintColor: 'tomato',
@@ -22,6 +21,7 @@ function TabBarNavigation() {
       <Tab.Screen
         name="All Tasks"
         component={TodoListingScreen}
+        initialParams={{filter: FilterType.All}}
         options={{
           headerTitle: 'All Todo Items',
           tabBarIcon: ({focused, color, size}) => {
@@ -32,6 +32,7 @@ function TabBarNavigation() {
       <Tab.Screen
         name="Pending"
         component={TodoListingScreen}
+        initialParams={{filter: FilterType.Pending}}
         options={{
           headerTitle: 'Pending Todo Items',
           tabBarIcon: ({focused, color, size}) => {
@@ -42,6 +43,7 @@ function TabBarNavigation() {
       <Tab.Screen
         name="Completed"
         component={TodoListingScreen}
+        initialParams={{filter: FilterType.Completed}}
         options={{
           headerTitle: 'Completed Todo Items',
           tabBarIcon: ({focused, color, size}) => {

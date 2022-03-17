@@ -1,12 +1,15 @@
 import * as React from 'react';
-import {View, Text, StyleSheet} from 'react-native';
+import {View, Text, StyleSheet, InteractionManager} from 'react-native';
 import CheckBox from '@react-native-community/checkbox';
 import {getScaledFont} from '../../HelperFuntions';
 import {TodoItem} from '../../Interfaces/TodoItem';
+import {useDispatch} from 'react-redux';
+import {updateData, updateTodoItem} from '../../Actions';
 
 const TodoItemComponent: React.FC<{item: TodoItem}> = props => {
   const {item} = props;
-  const [toggleCheckBox, setToggleCheckBox] = React.useState(item.isCompleted);
+  let {isCompleted} = item;
+  const dispatch = useDispatch();
 
   return (
     <View style={styles.fullWidth}>
@@ -14,17 +17,22 @@ const TodoItemComponent: React.FC<{item: TodoItem}> = props => {
         <View style={styles.checkbox}>
           <CheckBox
             disabled={false}
-            value={toggleCheckBox}
+            value={isCompleted}
             onValueChange={newValue => {
-              setToggleCheckBox(newValue);
+              isCompleted = newValue;
               item.isCompleted = newValue;
+              item.updatedAt = Date();
+              setTimeout(() => {
+                dispatch(updateTodoItem(item));
+                dispatch(updateData());
+              }, 1000);
             }}
           />
         </View>
         <Text
           style={[
             styles.desc,
-            {textDecorationLine: toggleCheckBox ? 'line-through' : 'none'},
+            {textDecorationLine: isCompleted ? 'line-through' : 'none'},
           ]}>
           {item.data}
         </Text>

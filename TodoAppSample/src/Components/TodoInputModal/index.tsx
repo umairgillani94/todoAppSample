@@ -14,7 +14,7 @@ import {
 } from 'react-native';
 import {getScaledFont} from '../../HelperFuntions';
 import {useDispatch} from 'react-redux';
-import {addTodoItem, updateTodoItem} from '../../Actions';
+import {addTodoItem, updateData, updateTodoItem} from '../../Actions';
 import {generateUUID} from '../../HelperFuntions';
 import {TodoItem} from '../../Interfaces/TodoItem';
 
@@ -56,6 +56,7 @@ const TodoInputModal: React.FC<{
         }),
       );
     }
+    dispatch(updateData());
     props.updateVisibility(false);
     // deleteTodoItem({
     //   data: 'x',

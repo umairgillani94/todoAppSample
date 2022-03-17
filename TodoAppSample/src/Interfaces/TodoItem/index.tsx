@@ -9,5 +9,5 @@ export interface TodoItem {
 
 export interface TodoItemAction {
   type: string;
-  payload: TodoItem;
+  payload?: TodoItem;
 }
