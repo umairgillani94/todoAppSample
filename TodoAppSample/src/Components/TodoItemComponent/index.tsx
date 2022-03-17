@@ -85,14 +85,13 @@ const styles = StyleSheet.create({
     fontSize: getScaledFont(20),
   },
   deleteContainer: {
-    backgroundColor: '#ff8303',
+    backgroundColor: 'red',
     justifyContent: 'center',
     alignItems: 'flex-end',
     marginTop: '4%',
   },
   textDelete: {
-    color: '#1b1a17',
-    paddingHorizontal: 10,
+    color: 'white',
     fontWeight: '600',
     paddingHorizontal: 30,
     paddingVertical: 20,
