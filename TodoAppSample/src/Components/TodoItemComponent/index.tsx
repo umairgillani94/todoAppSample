@@ -5,7 +5,7 @@ import {getScaledFont} from '../../HelperFuntions';
 import {TodoItem} from '../../Interfaces/TodoItem';
 import {useDispatch} from 'react-redux';
 import {deleteTodoItem, updateData, updateTodoItem} from '../../Actions';
-import {Swipeable} from 'react-native-gesture-handler';
+import {Swipeable, GestureHandlerRootView} from 'react-native-gesture-handler';
 
 const TodoItemComponent: React.FC<{item: TodoItem}> = props => {
   const {item} = props;
@@ -21,42 +21,43 @@ const TodoItemComponent: React.FC<{item: TodoItem}> = props => {
   };
 
   const swipeFromRightOpen = () => {
-    console.log('Swipe from right');
     dispatch(deleteTodoItem(item));
     dispatch(updateData());
   };
 
   return (
-    <Swipeable
-      renderRightActions={rightSwipeActions}
-      onSwipeableRightOpen={swipeFromRightOpen}>
-      <View style={styles.fullWidth}>
-        <View style={styles.container}>
-          <View style={styles.checkbox}>
-            <CheckBox
-              disabled={false}
-              value={isCompleted}
-              onValueChange={newValue => {
-                isCompleted = newValue;
-                item.isCompleted = newValue;
-                item.updatedAt = Date();
-                setTimeout(() => {
+    <GestureHandlerRootView>
+      <Swipeable
+        renderRightActions={rightSwipeActions}
+        onSwipeableRightOpen={swipeFromRightOpen}>
+        <View style={styles.fullWidth}>
+          <View style={styles.container}>
+            <View style={styles.checkbox}>
+              <CheckBox
+                disabled={false}
+                value={isCompleted}
+                onValueChange={newValue => {
+                  isCompleted = newValue;
+                  item.isCompleted = newValue;
+                  item.updatedAt = Date();
                   dispatch(updateTodoItem(item));
-                  dispatch(updateData());
-                }, 1000);
-              }}
-            />
+                  setTimeout(() => {
+                    dispatch(updateData());
+                  }, 1000);
+                }}
+              />
+            </View>
+            <Text
+              style={[
+                styles.desc,
+                {textDecorationLine: isCompleted ? 'line-through' : 'none'},
+              ]}>
+              {item.data}
+            </Text>
           </View>
-          <Text
-            style={[
-              styles.desc,
-              {textDecorationLine: isCompleted ? 'line-through' : 'none'},
-            ]}>
-            {item.data}
-          </Text>
         </View>
-      </View>
-    </Swipeable>
+      </Swipeable>
+    </GestureHandlerRootView>
   );
 };
 
@@ -94,6 +95,5 @@ const styles = StyleSheet.create({
     color: 'white',
     fontWeight: '600',
     paddingHorizontal: 30,
-    paddingVertical: 20,
   },
 });
