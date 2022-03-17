@@ -73,11 +73,6 @@ const TodoListingScreen = () => {
         return item?.isCompleted === false;
       });
       setData(newData);
-    } else if (filterType === FilterType.Deleted) {
-      const newData = todoItems.filter(item => {
-        return item?.isArchieved === true;
-      });
-      setData(newData);
     }
   };
 

@@ -50,7 +50,6 @@ const TodoInputModal: React.FC<{
           data: text.trim(),
           id: generateUUID(),
           isCompleted: false,
-          isArchieved: false,
           createdAt: Date(),
           updatedAt: Date(),
         }),
@@ -58,14 +57,6 @@ const TodoInputModal: React.FC<{
     }
     dispatch(updateData());
     props.updateVisibility(false);
-    // deleteTodoItem({
-    //   data: 'x',
-    //   id: 'q',
-    //   isCompleted: false,
-    //   isArchieved: false,
-    //   createdAt: Date(),
-    //   updatedAt: Date(),
-    // }),
   };
 
   const showErrorAlert = () => {
